@@ -1,0 +1,12 @@
+[package]
+name = "sd-api-rs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "4.3.1"
+diffusers = { git = "https://github.com/LaurentMazare/diffusers-rs"}
+image = "0.24.6"
+tch = "0.13"
