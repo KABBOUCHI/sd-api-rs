@@ -16,9 +16,7 @@ async fn hello(params: web::Query<HashMap<String, String>>) -> impl Responder {
 
     tch::maybe_init_cuda();
 
-    let seed = 32;
     let n_steps = 30;
-    let num_samples = 1;
     let vocab_file = "data/bpe_simple_vocab_16e6.txt".to_string();
     let clip_weights = "data/pytorch_model.safetensors".to_string();
     let unet_weights = "data/unet.safetensors".to_string();
@@ -59,8 +57,8 @@ async fn hello(params: web::Query<HashMap<String, String>>) -> impl Responder {
     let unet = sd_config.build_unet(&unet_weights, unet_device, 4).unwrap();
 
     let bsize = 1;
-    let idx = 0;
-    tch::manual_seed(seed + idx);
+    // let idx = 0;
+    // tch::manual_seed(seed + idx);
     let mut latents = Tensor::randn(
         [bsize, 4, sd_config.height / 8, sd_config.width / 8],
         (Kind::Float, unet_device),
@@ -82,9 +80,7 @@ async fn hello(params: web::Query<HashMap<String, String>>) -> impl Responder {
     }
 
     println!(
-        "Generating the final image for sample {}/{}.",
-        idx + 1,
-        num_samples
+        "Generating the final image for sample ",
     );
     let latents = latents.to(vae_device);
     let image = vae.decode(&(&latents / 0.18215));
